@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const API_URL = "http://localhost:5000/api/task";
+const API_URL = "http://192.168.1.6:5000/api/task"; // Replace with your actual IP
+
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -43,51 +44,45 @@ function App() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4 text-center">TODO</h1>
-      <form onSubmit={handleSubmit} className="mb-6">
+    <div className="container">
+      <h1 className="title">📝 Task List</h1>
+
+      <form onSubmit={handleSubmit} className="task-form">
         <input
-          className="border p-2 w-full mb-2"
-          placeholder="Task"
+          className="input"
+          placeholder="Task Title"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
         />
         <textarea
-          className="border p-2 w-full mb-2"
+          className="textarea"
           placeholder="Task Details"
           value={form.content}
           onChange={(e) => setForm({ ...form, content: e.target.value })}
         />
-        <button className="bg-blue-500 text-white px-4 py-2 rounded">
+        <button type="submit" className="submit-button">
           {editingId ? "Update Task" : "Add Task"}
         </button>
       </form>
 
-      {tasks.map((task) => (
-        <div key={task.id} className="border p-4 mb-2 rounded">
-          <h2 className="text-xl font-semibold">{task.title}</h2>
-          <p>{task.content}</p>
-          <div className="mt-2 space-x-2">
-            <button
-              className="bg-yellow-500 text-white px-2 py-1 rounded"
-              onClick={() => handleEdit(task)}
-            >
-              Edit
-            </button>
-            <button
-              className="bg-red-500 text-white px-2 py-1 rounded"
-              onClick={() => handleDelete(task.id)}
-            >
-              Delete
-            </button>
+      <div className="task-list">
+        {tasks.map((task) => (
+          <div key={task.id} className="task-card">
+            <h2 className="task-title">{task.title}</h2>
+            <p className="task-content">{task.content}</p>
+            <div className="button-group">
+              <button className="edit-button" onClick={() => handleEdit(task)}>
+                Edit
+              </button>
+              <button className="delete-button" onClick={() => handleDelete(task.id)}>
+                Delete
+              </button>
+            </div>
           </div>
-        </div>
-      ))} 
+        ))}
+      </div>
     </div>
   );
 }
 
 export default App;
-// This code is a simple React application that allows users to create, read, update, and delete tasks.
-// It uses the Fetch API to interact with a backend server that handles the CRUD operations.
-// The application consists of a form for adding and editing tasks, and a list of existing tasks.

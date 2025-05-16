@@ -12,9 +12,7 @@ let task = [];
 let id = 1;
 
 app.get('/checkserver', (req, res) => {
-
-  res.send('Server is good condition');
-
+  res.send('Server is in good condition');
 });
 
 app.get('/api/task', (req, res) => {
@@ -32,14 +30,14 @@ app.post('/api/task', (req, res) => {
 app.put('/api/task/:id', (req, res) => {
   const taskId = parseInt(req.params.id);
   const { title, content } = req.body;
-  const task = tasks.find(t => t.id === taskId);
-  if (task) {
-    task.title = title;
-    task.content = content;
-    task.date = new Date();
-    res.json(task);
+  const t = task.find(t => t.id === taskId);
+  if (t) {
+    t.title = title;
+    t.content = content;
+    t.date = new Date();
+    res.json(t);
   } else {
-    res.status(404).json({ message: 'task not found' });
+    res.status(404).json({ message: 'Task not found' });
   }
 });
 
@@ -49,6 +47,7 @@ app.delete('/api/task/:id', (req, res) => {
   res.status(204).end();
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+// Listen on all interfaces
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://192.168.1.6:${PORT}`);
 });
